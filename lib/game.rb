@@ -19,8 +19,10 @@ class Game
     @tabletop = tabletop
   end
 
-  def exec_command(command_string)
-    exec_single_command(command_string)
+  def exec_command(commands_string)
+    commands_string.split("\n").each do |command|
+      exec_single_command(command)
+    end
   end
 
   def position_valid?(x, y)
@@ -77,7 +79,7 @@ class Game
       raise ArgumentError, 'First and Second arguments must be numbers'
     end
 
-    unless robot.direction_valid?(args[2])
+    unless Robot.direction_valid?(args[2])
       raise ArgumentError, 'Invalid direction type'
     end
   end

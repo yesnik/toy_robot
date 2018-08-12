@@ -77,5 +77,20 @@ describe Game do
           to output('1,2,NORTH').to_stdout
       end
     end
+
+    test_cases = [
+      {in: "PLACE 0,0,NORTH\nMOVE\nREPORT", out: '0,1,NORTH'},
+      {in: "PLACE 0,0,NORTH\nLEFT\nREPORT", out: '0,0,WEST'},
+      {in: "PLACE 1,2,EAST\nMOVE\nMOVE\nLEFT\nMOVE\nREPORT", out: '3,3,NORTH'}
+    ]
+
+    context 'when we pass several commands' do
+      test_cases.each do |test|
+        it 'returns valid position values' do
+          expect { subject.exec_command(test[:in]) }.
+            to output(test[:out]).to_stdout
+        end
+      end
+    end
   end
 end

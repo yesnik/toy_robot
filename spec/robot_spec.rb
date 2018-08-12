@@ -134,9 +134,19 @@ describe Robot do
     end
   end
 
-  describe '#direction_valid?' do
-    xit 'implement' do
+  describe '.direction_valid?' do
+    context 'when direction is invalid' do
+      it 'returns false' do
+        expect(described_class.direction_valid?('NORTH-WEST')).
+          to be false
+      end
+    end
 
+    context 'when direction is valid' do
+      it 'returns true' do
+        expect(described_class.direction_valid?('WEST')).
+          to be true
+      end
     end
   end
 end

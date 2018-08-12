@@ -51,7 +51,7 @@ class Robot
     [x, y, direction]
   end
 
-  def direction_valid?(direction)
+  def self.direction_valid?(direction)
     Directions::LIST.include?(direction)
   end
 
