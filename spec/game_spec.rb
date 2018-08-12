@@ -17,13 +17,20 @@ describe Game do
       end
     end
 
-    context 'when first command is PLACE' do
+    context 'when first command is PLACE and args are valid' do
       before { subject.exec_command 'PLACE 1,2,NORTH' }
 
       it 'places robot at defined position' do
         expect(robot.x).to eq 1
         expect(robot.y).to eq 2
         expect(robot.direction).to eq 'NORTH'
+      end
+    end
+
+    context 'when first command is PLACE and args are invalid' do
+      it 'returns error' do
+        expect { subject.exec_command 'PLACE' }.
+          to raise_error Game::PlaceCommandArgumentError
       end
     end
 
@@ -81,7 +88,8 @@ describe Game do
     test_cases = [
       {in: "PLACE 0,0,NORTH\nMOVE\nREPORT", out: '0,1,NORTH'},
       {in: "PLACE 0,0,NORTH\nLEFT\nREPORT", out: '0,0,WEST'},
-      {in: "PLACE 1,2,EAST\nMOVE\nMOVE\nLEFT\nMOVE\nREPORT", out: '3,3,NORTH'}
+      {in: "PLACE 1,2,EAST\nMOVE\nMOVE\nLEFT\nMOVE\nREPORT", out: '3,3,NORTH'},
+      {in: "PLACE 0,0,SOUTH\nMOVE\nMOVE\nREPORT", out: '0,0,SOUTH'}
     ]
 
     context 'when we pass several commands' do

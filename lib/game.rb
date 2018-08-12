@@ -13,6 +13,7 @@ class Game
 
   class InvalidCommandError < StandardError; end
   class InvalidFirstCommandError < StandardError; end
+  class PlaceCommandArgumentError < StandardError; end
 
   def initialize(robot, tabletop)
     @robot = robot
@@ -48,13 +49,25 @@ class Game
         r.direction = direction
       end
     when Commands::MOVE
-      robot.move
+      try_move_robot
     when Commands::LEFT
       robot.left
     when Commands::RIGHT
       robot.right
     when Commands::REPORT
       print robot.report.join(',')
+    end
+  end
+
+  def try_move_robot
+    x, y = [robot.x, robot.y]
+    robot.move
+    
+    if tabletop.point_outside?(robot.x, robot.y)
+      robot.tap do |r|
+        r.x = x
+        r.y = y
+      end
     end
   end
 
@@ -68,6 +81,9 @@ class Game
 
   def args_of_place_command(command_string)
     _command_name, args_string = command_string.split(' ')
+    
+    raise_place_command_error unless args_string
+
     args = args_string.split(',')
     validate_place_args(args)
 
@@ -75,9 +91,7 @@ class Game
   end
 
   def validate_place_args(args)
-    if !number?(args[0]) || !number?(args[1])
-      raise ArgumentError, 'First and Second arguments must be numbers'
-    end
+    raise_place_command_error if !number?(args[0]) || !number?(args[1])
 
     unless Robot.direction_valid?(args[2])
       raise ArgumentError, 'Invalid direction type'
@@ -90,5 +104,11 @@ class Game
 
   def execution_allowed?(command)
     @execution_allowed ||= (command == Commands::PLACE)
+  end
+
+  def raise_place_command_error
+    raise PlaceCommandArgumentError,
+      'Invalid args were supplied for PLACE command. ' +
+      'Example of valid command: PLACE 2,3,NORTH'
   end
 end
