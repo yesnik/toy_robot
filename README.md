@@ -1,5 +1,47 @@
 # Toy Robot Simulator
 
+## Solution
+
+You can check this coding challenge solution by sending commands to 
+robot via console.
+
+* Clone this repo:
+
+```
+git clone git@github.com:yesnik/toy_robot.git
+```
+
+* Run app to send commands to our robot:
+
+```
+cd toy_robot
+ruby bin/run.rb
+```
+
+After this you can send commands to robot:
+
+```
+>> Enter command:
+PLACE 1,1,NORTH
+
+>> Enter command:
+MOVE
+
+>> Enter command:
+REPORT
+1,2,NORTH
+
+```
+
+Also you can run rspec tests for this app:
+
+```
+cd toy_robot
+rspec
+```
+
+## Description
+
 Please provide your source code, and any test code/data
 you using in developing your solution.
 
@@ -10,8 +52,6 @@ as collaborators.) Do not create a pull request against this repository.
 
 Please engineer your solution to a standard you consider
 suitable for production.
-
-## Description
 
 * The application is a simulation of a toy robot moving
 on a square tabletop, of dimensions 5 units x 5 units.
