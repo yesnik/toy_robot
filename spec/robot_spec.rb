@@ -133,4 +133,10 @@ describe Robot do
       expect(subject.report).to eq [2, 3, 'NORTH']
     end
   end
+
+  describe '#direction_valid?' do
+    xit 'implement' do
+
+    end
+  end
 end
